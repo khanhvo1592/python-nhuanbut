@@ -19,12 +19,12 @@ def create_pivot(input_file, output_file):
     book = openpyxl.load_workbook(output_file)
 
     # Xóa sheet "Pivot" nếu đã tồn tại
-    if "Pivot" in book.sheetnames:
-        std = book["Pivot"]
+    if "Bang Tong" in book.sheetnames:
+        std = book["Bang Tong"]
         book.remove(std)
 
     # Tạo sheet mới với tên "Pivot"
-    pivot_sheet = book.create_sheet("Pivot")
+    pivot_sheet = book.create_sheet("Bang Tong")
 
     # Chuyển DataFrame vào sheet "Pivot"
     for r_idx, row in enumerate(dataframe_to_rows(pivot_table, index=False, header=True), 1):

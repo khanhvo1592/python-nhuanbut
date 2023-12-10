@@ -3,6 +3,7 @@ from openpyxl import load_workbook
 from openpyxl.utils.dataframe import dataframe_to_rows
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Border, Side
+from datetime import datetime
 
 
 
@@ -13,6 +14,9 @@ def generate_individual_sheets(input_file, output_file):
                      right=Side(style='thin'),
                      top=Side(style='thin'),
                      bottom=Side(style='thin'))
+    
+    # Lấy tháng hiện tại
+    current_month = datetime.now().month
     # Đọc dữ liệu vào DataFrame
     df = pd.read_excel(input_file)
     
@@ -31,6 +35,7 @@ def generate_individual_sheets(input_file, output_file):
             output_wb.remove(person_sheet)
         person_sheet = output_wb.create_sheet(person)
 
+        
         # Thêm các dòng trống trước khi thêm dữ liệu thực từ dòng số 10
         for _ in range(9):  # Thêm 9 dòng trống để bắt đầu từ dòng 10
             person_sheet.append([])
@@ -39,7 +44,11 @@ def generate_individual_sheets(input_file, output_file):
         for row in dataframe_to_rows(person_df, index=False, header=True):
             person_sheet.append(row[1:])  # Bỏ qua cột đầu tiên (đã được loại bỏ)
 
-
+        # Tính tổng giá trị cột 'Thành tiền' và thêm vào dòng cuối cùng
+        total_amount = person_df['Thành Tiền'].sum()
+        final_row = person_sheet.max_row + 1
+        person_sheet.cell(row=final_row, column=5, value=total_amount)  # Giả sử 'Thành tiền' nằm ở cột E (5)
+        
         # Tính toán độ rộng cột và cài đặt
         for column_cells in person_sheet.columns:
             length = max(len(str(cell.value)) if cell.value is not None else 0 for cell in column_cells)
@@ -49,6 +58,8 @@ def generate_individual_sheets(input_file, output_file):
         for row in person_sheet.iter_rows(min_row=10, max_col=person_sheet.max_column, max_row=person_sheet.max_row):
             for cell in row:
                 cell.border = thin_border
-
+          # Đặt giá trị tháng hiện tại vào ô A4 Đặt giá trị "Người nhận: [Họ và tên]" vào ô A5
+        person_sheet['A4'] = f"NHUẬN BÚT THÁNG: {current_month - 1}"
+        person_sheet['A5'] = f"Người nhận: {person}"
     # Lưu workbook
     output_wb.save(output_file)
