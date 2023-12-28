@@ -14,7 +14,8 @@ class ExcelMerger:
             for row in range(1, target_ws.max_row + 1):
                 target_ws.delete_rows(1)
         else:
-            target_ws = target_wb.create_sheet("data")
+                target_ws = target_wb.create_sheet("data")
+
             # Định nghĩa thứ tự mới của cột dựa trên chỉ số cột (index) từ file nguồn
                # Ví dụ: Giả sử cột "Thời gian" ở chỉ số 0, "Họ và tên" ở chỉ số 1, v.v...
         new_order = [1, 2, 3, 4, 5]

@@ -1,0 +1,6 @@
+README.md
+setup.py
+NBHGTV.egg-info/PKG-INFO
+NBHGTV.egg-info/SOURCES.txt
+NBHGTV.egg-info/dependency_links.txt
+NBHGTV.egg-info/top_level.txt
