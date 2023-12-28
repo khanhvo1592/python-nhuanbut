@@ -37,7 +37,7 @@ def create_and_save_excel_file():
     default_sheet.title = "data"
     # Save the workbook to the chosen file path
     wb.save(file_path)
-    logging.info(f"File has been save to: {file_path}")
+    logging.info(f"File has been saved to: {file_path}")
     return file_path
 
 
@@ -64,8 +64,8 @@ def main():
         merger.merge_sheets(input_file, output_file)
         create_pivot(output_file, output_file)
         generate_individual_sheets(output_file, output_file)
+        logging.info("Excel processing completed")
 
-    
     # Tạo tên file backup với timestamp
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     backup_filename = f"NB_Backup_{timestamp}.xlsx"
@@ -79,10 +79,9 @@ def main():
         local_backup_path = f"D:\\license\\{backup_filename}"
         shutil.copy(original_file_path, network_backup_path)
         shutil.copy(original_file_path, local_backup_path)
-        #print(f"File has been backed up to: {network_backup_path} and {local_backup_path}")
+        logging.info(f"File has been backed up to: {network_backup_path} and {local_backup_path}")
     except Exception as e:
-        pass
-        #print(f"An error occurred while copying the file: {e}")
+        logging.error(f"An error occurred while copying the file: {e}")
 
     # Hiển thị dialog xác nhận mở file
     root = Tk()
